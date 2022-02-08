@@ -9,7 +9,6 @@ namespace EUBAD_ActivityPlan.Interfaces
     {
         public IEnumerable<Activity> GetAllActivities();
         public Activity GetActivityById(int activityId);
-        public IEnumerable<SelectListItem> GetSelectListItems();
         public Task AddActivity(Activity activity);
         public Task DeleteActivity(Activity activity);
         public Task EditActivity(Activity activity);

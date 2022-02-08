@@ -15,28 +15,6 @@ namespace EUBAD_ActivityPlan.Models
         }
 
         public IEnumerable<TeamMember> GetAllMembers() => _appDbContext.TeamMembers;
-        public IEnumerable<SelectListItem> GetSelectListItems()
-        {
-            //var teamMembersList = new List<SelectListItem>();
-            /*foreach (var member in AllMembers)
-            {
-                if (member.IsActive)
-                {
-                    teamMembersList.Add(new SelectListItem
-                    {
-                        Value = member.Id.ToString(),
-                        Text = member.FirstName + " " + member.LastName
-                    });
-                }
-            }*/
-            var teamMembersList = GetAllMembers().Where(teamMember => teamMember.IsActive).Select(teamMember => new SelectListItem{ 
-                Value = teamMember.Id.ToString(), 
-                Text = teamMember.FirstName + " " + teamMember.LastName
-            });
-
-            return teamMembersList;
-        }
-
         public TeamMember GetTeamMemberById(int teamMemberId)
         {
             return _appDbContext.TeamMembers.FirstOrDefault(teamMember => teamMember.Id == teamMemberId);

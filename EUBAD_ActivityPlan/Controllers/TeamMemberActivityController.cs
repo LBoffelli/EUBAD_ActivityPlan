@@ -3,7 +3,10 @@ using EUBAD_ActivityPlan.Models;
 using EUBAD_ActivityPlan.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -63,8 +66,8 @@ namespace EUBAD_ActivityPlan.Controllers
         public IActionResult Create()
         {
             ViewData["Title"] = "Add an Activity for a Team Member";
-            activityCalendar.TeamMembers = _teamMemberRepo.GetSelectListItems();
-            activityCalendar.Activities = _activityRepo.GetSelectListItems();
+            activityCalendar.TeamMembers = GetTeamMembersAsSelectListItems();
+            activityCalendar.Activities = GetActivitiesAsSelectListItems();
             return View(activityCalendar);
         }
         [Authorize]
@@ -99,8 +102,8 @@ namespace EUBAD_ActivityPlan.Controllers
         {
             ViewData["Title"] = "Edit a Team Member Activity";
             var teamMemberActivity = _teamMemberActivityPlanRepo.GetTeamMemberActivityById(id);
-            activityCalendar.TeamMembers = _teamMemberRepo.GetSelectListItems();
-            activityCalendar.Activities = _activityRepo.GetSelectListItems();
+            activityCalendar.TeamMembers = GetTeamMembersAsSelectListItems();
+            activityCalendar.Activities = GetActivitiesAsSelectListItems();
             activityCalendar.Date = teamMemberActivity.Day;
             activityCalendar.ActivityId = teamMemberActivity.ActivityId;
             activityCalendar.TeamMemberId = teamMemberActivity.TeamMemberId;
@@ -126,5 +129,15 @@ namespace EUBAD_ActivityPlan.Controllers
             }
             return View(teamMemberActivity);
         }
+        private IEnumerable<SelectListItem> GetTeamMembersAsSelectListItems() => _teamMemberRepo.GetAllMembers().Where(teamMember => teamMember.IsActive).Select(teamMember => new SelectListItem
+        {
+            Value = teamMember.Id.ToString(),
+            Text = teamMember.FirstName + " " + teamMember.LastName
+        });
+        private IEnumerable<SelectListItem> GetActivitiesAsSelectListItems() => _activityRepo.GetAllActivities().Where(activity => activity.IsActive).Select(activity => new SelectListItem
+        {
+            Value = activity.Id.ToString(),
+            Text = activity.Name
+        });
     }
 }

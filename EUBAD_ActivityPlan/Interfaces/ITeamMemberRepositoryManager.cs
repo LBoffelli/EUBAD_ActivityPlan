@@ -9,7 +9,6 @@ namespace EUBAD_ActivityPlan.Interfaces
     {
         public IEnumerable<TeamMember> GetAllMembers();
         public TeamMember GetTeamMemberById(int teamMemberId);
-        public IEnumerable<SelectListItem> GetSelectListItems();
         public Task AddTeamMember(TeamMember teamMember);
         public Task DeleteTeamMember(TeamMember teamMember);
         public Task EditTeamMember(TeamMember teamMember);
