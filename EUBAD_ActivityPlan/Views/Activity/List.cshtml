@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Activity>
+
+
+<h2>Activites supported by the EUBAD Team</h2>
+<br />
+<table border-collapse="collapse" border="1px" cellpadding="8px">
+    <thead>
+        <tr style="color:white; background-color:darkgray">
+            <th>Activity</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @foreach (var act in Model)
+    {
+        if (act.IsActive)
+        {
+            <tr>
+                <td>@act.Name</td>
+                <td align="center"><a asp-controller="Activity" asp-action="Edit" asp-route-id="@act.Id"><span class="bi bi-pencil-fill"></span></a></td>
+                <td align="center"><a asp-controller="Activity" asp-action="Delete" asp-route-id="@act.Id"><span class="bi bi-trash-fill"></span></a></td>
+            </tr>
+        }
+        else
+        {
+            <tr style="color:lightgray; font-style:italic">
+                <td>@act.Name</td>
+                <td align="center"><a asp-controller="Activity" asp-action="Edit" asp-route-id="@act.Id"><span class="bi bi-pencil-fill"></span></a></td>
+                <td align="center"><a asp-controller="Activity" asp-action="Delete" asp-route-id="@act.Id"><span class="bi bi-trash-fill"></span></a></td>
+            </tr>
+        }
+    }
+</table>
+<br>
+<button type="button" class="btn btn-primary"onclick="window.location='./Create'"><span class="bi bi-plus"> Add a new Activity! </span></button>

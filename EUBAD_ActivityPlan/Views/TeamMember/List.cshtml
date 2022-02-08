@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TeamMember>
+@{
+
+}
+
+<h2>Members of the EUBAD Team</h2>
+<br />
+<table width="90%" border-collapse="collapse" border="1px" cellpadding="8px">
+    <thead>
+        <tr style="color:white; background-color:darkgray">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @foreach (var tm in Model)
+    {
+        if (tm.IsActive)
+        {
+            <tr>
+                <td>@tm.FirstName</td>
+                <td>@tm.LastName</td>
+                <td>@tm.Email</td>
+                <td align="center"><a asp-controller="TeamMember" asp-action="Edit" asp-route-id="@tm.Id"><span class="bi bi-pencil-fill"></span></a></td>
+                <td align="center"><a asp-controller="TeamMember" asp-action="Delete" asp-route-id="@tm.Id"><span class="bi bi-trash-fill"></span></a></td>
+            </tr>
+        }
+        else
+        {
+            <tr style="color:lightgray; font-style:italic">
+                <td>@tm.FirstName</td>
+                <td>@tm.LastName</td>
+                <td>@tm.Email</td>
+                <td align="center"><a asp-controller="TeamMember" asp-action="Edit" asp-route-id="@tm.Id"><span class="bi bi-pencil-fill"></span></a></td>
+                <td align="center"><a asp-controller="TeamMember" asp-action="Delete" asp-route-id="@tm.Id"><span class="bi bi-trash-fill"></span></a></td>
+            </tr>
+        }
+    }
+</table>
+
+<br />
+<button type="button" class="btn btn-primary" onclick="window.location='./Create'"><span class="bi bi-plus"> Add a new Team Member! </span></button>

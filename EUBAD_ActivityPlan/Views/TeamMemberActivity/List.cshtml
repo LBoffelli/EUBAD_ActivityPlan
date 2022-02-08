@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TeamMemberActivity>
+@{
+
+}
+
+
+<h2>Activity Calendar</h2>
+<br />
+<div>
+    Team Activities
+</div>
+<br />
+<div>
+    <form method="get">
+        <div class="form-group">
+            <div class="input-group">
+                <span>
+                    <label for="dateString">Select Date Interval: </label>
+                    <br />
+                    Start Date:
+                    <input type="datetime-local" name="startdateString" class="form-control" value="@Context.Request.Query["startdateString"]">
+                    <br />
+                    End Date:
+                    <input type="datetime-local" name="enddateString" class="form-control" value="@Context.Request.Query["enddateString"]">
+                    <br />
+                    <button type="submit" class="btn btn-info"><span class="bi bi-search"> Search </span>
+                        
+                    </button>
+                    @*<button type="button" class="btn btn-default" onclick="window.location='/TeamMemberActivity/List?startdateString=@DateTime.Now&enddateString=@DateTime.Now'">
+                        Today
+                    </button>*@
+                </span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+@if (ViewData["ErrorMessage"] != null && Context.Request.Query.Count != 0)
+{
+    <p><h style="color:red">@ViewData["ErrorMessage"]</h></p>
+}
+<br />
+<br />
+
+<table border-collapse="collapse" border="1px" cellpadding="8px">
+    <thead>
+        <tr style="color:white; background-color:darkgray">
+            <th>Name</th>
+            <th>Activity</th>
+            <th>Date</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @foreach (var tma in @Model)
+    {
+        <tr>
+            <td>@tma.TeamMember.FirstName @tma.TeamMember.LastName</td>
+            <td>@tma.Activity.Name</td>
+            <td>@tma.Day.ToShortDateString()</td>
+            <td align="center"><a asp-controller="TeamMemberActivity" asp-action="Edit" asp-route-id="@tma.Id"><span class="bi bi-pencil-fill"></span></a></td>
+            <td align="center"><a asp-controller="TeamMemberActivity" asp-action="Delete" asp-route-id="@tma.Id"><span class="bi bi-trash-fill"></span></a></td>
+        </tr>
+    }
+</table>
+
+<br />
+<button type="button" class="btn btn-primary" onclick="window.location='./Create'"><span class="bi bi-plus"> Add a new Activity for a Team Member! </span></button>
