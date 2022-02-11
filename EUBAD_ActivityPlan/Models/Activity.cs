@@ -7,6 +7,7 @@ namespace EUBAD_ActivityPlan.Models
     {
         public int Id { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
         public bool IsActive { get; set; } = true;
         public IEnumerable<TeamMemberActivity> TeamMemberActivities { get; set; }
