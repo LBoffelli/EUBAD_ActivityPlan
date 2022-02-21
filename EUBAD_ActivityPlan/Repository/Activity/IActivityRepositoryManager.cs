@@ -8,6 +8,7 @@ namespace EUBAD_ActivityPlan.Interfaces
     public interface IActivityRepositoryManager
     {
         public IEnumerable<Activity> GetAllActivities();
+        public Task<IEnumerable<Activity>> GetActivitiesAsync();
         public Activity GetActivityById(int activityId);
         public Task AddActivity(Activity activity);
         public Task DeleteActivity(Activity activity);

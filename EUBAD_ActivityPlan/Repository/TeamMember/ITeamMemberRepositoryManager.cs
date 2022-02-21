@@ -8,6 +8,7 @@ namespace EUBAD_ActivityPlan.Interfaces
     public interface ITeamMemberRepositoryManager
     {
         public IEnumerable<TeamMember> GetAllMembers();
+        public Task<IEnumerable<TeamMember>> GetMembersAsync();
         public TeamMember GetTeamMemberById(int teamMemberId);
         public Task AddTeamMember(TeamMember teamMember);
         public Task DeleteTeamMember(TeamMember teamMember);

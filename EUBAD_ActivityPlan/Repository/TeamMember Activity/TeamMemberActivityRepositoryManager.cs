@@ -15,17 +15,17 @@ namespace EUBAD_ActivityPlan.Models
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<TeamMemberActivity> GetAllTeamActivities()
+        public async Task<IEnumerable<TeamMemberActivity>> GetAllTeamActivities()
         {
-           return _appDbContext.TeamMemberActivities.Include(teamMember => teamMember.TeamMember).Include(activity => activity.Activity).Where(teamMemberActivity => teamMemberActivity.TeamMember.IsActive && teamMemberActivity.Activity.IsActive); 
+           return await _appDbContext.TeamMemberActivities.Include(teamMember => teamMember.TeamMember).Include(activity => activity.Activity).Where(teamMemberActivity => teamMemberActivity.TeamMember.IsActive && teamMemberActivity.Activity.IsActive).ToListAsync(); 
         }
         public TeamMemberActivity GetTeamMemberActivityById(int teamMemberActivityId)
         {
             return _appDbContext.TeamMemberActivities.FirstOrDefault(teamMemberActivity => teamMemberActivity.Id == teamMemberActivityId);
         }
-        public IEnumerable<TeamMemberActivity> GetTeamMemberActivitiesByDate(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<TeamMemberActivity>> GetTeamMemberActivitiesByDate(DateTime startDate, DateTime endDate)
         {
-            return GetAllTeamActivities().Where(teamMemberActivity => teamMemberActivity.Day.Date >= startDate.Date && teamMemberActivity.Day.Date <= endDate.Date).OrderBy(teammemberActivity => teammemberActivity.Day);
+            return (await GetAllTeamActivities()).Where(teamMemberActivity => teamMemberActivity.Day.Date >= startDate.Date && teamMemberActivity.Day.Date <= endDate.Date).OrderBy(teammemberActivity => teammemberActivity.Day);
         }
 
         public async Task AddTeamMemberActivity(TeamMemberActivity teamMemberActivity)

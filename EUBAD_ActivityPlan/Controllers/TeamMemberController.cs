@@ -16,10 +16,10 @@ namespace EUBAD_ActivityPlan.Controllers
             _teamMemberRepo = teamMemberRepo;
         }
 
-        public ViewResult List()
+        public async Task<ViewResult> List()
         {
             ViewData["Title"] = "Team Members";
-            return View(_teamMemberRepo.GetAllMembers());
+            return View(await _teamMemberRepo.GetMembersAsync());
         }
         [Authorize]
         [HttpGet]

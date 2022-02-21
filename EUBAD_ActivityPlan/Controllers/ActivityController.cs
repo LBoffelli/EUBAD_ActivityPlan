@@ -17,10 +17,10 @@ namespace EUBAD_ActivityPlan.Controllers
             _activityRepo = activityRepo;
         }
 
-        public ViewResult List()
+        public async Task<ViewResult> List()
         {
             ViewData["Title"] = "Activities";
-            return View(_activityRepo.GetAllActivities());
+            return View(await _activityRepo.GetActivitiesAsync());
         }
         [Authorize]
         [HttpGet]

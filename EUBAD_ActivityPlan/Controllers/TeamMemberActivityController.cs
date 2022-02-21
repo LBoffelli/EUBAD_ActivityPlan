@@ -27,7 +27,7 @@ namespace EUBAD_ActivityPlan.Controllers
             _activityRepo = activityRepo;
         }
 
-        public ViewResult List(string startdateString, string enddateString)
+        public async Task<ViewResult> List(string startdateString, string enddateString)
         {
             ViewData["Title"] = "Activity Calendar";
 
@@ -59,7 +59,7 @@ namespace EUBAD_ActivityPlan.Controllers
                 Console.WriteLine("Unable to convert {0} and {1} in date", startdateString, enddateString);
             }
 
-            return View(_teamMemberActivityPlanRepo.GetTeamMemberActivitiesByDate(selDateS, selDateE));
+            return View(await _teamMemberActivityPlanRepo.GetTeamMemberActivitiesByDate(selDateS, selDateE));
         }
         [Authorize]
         [HttpGet]

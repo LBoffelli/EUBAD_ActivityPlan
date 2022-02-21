@@ -1,5 +1,5 @@
 ﻿using EUBAD_ActivityPlan.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,10 @@ namespace EUBAD_ActivityPlan.Models
         }
 
         public IEnumerable<TeamMember> GetAllMembers() => _appDbContext.TeamMembers;
+        public async Task<IEnumerable<TeamMember>> GetMembersAsync()
+        {
+            return await _appDbContext.TeamMembers.ToListAsync();
+        }
         public TeamMember GetTeamMemberById(int teamMemberId)
         {
             return _appDbContext.TeamMembers.FirstOrDefault(teamMember => teamMember.Id == teamMemberId);
