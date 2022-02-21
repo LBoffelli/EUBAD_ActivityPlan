@@ -66,8 +66,8 @@ namespace EUBAD_ActivityPlan.Controllers
         public IActionResult Create()
         {
             ViewData["Title"] = "Add an Activity for a Team Member";
-            activityCalendar.TeamMembers = GetTeamMembersAsSelectListItems();
-            activityCalendar.Activities = GetActivitiesAsSelectListItems();
+            activityCalendar.TeamMembers = _teamMemberRepo.GetAllMembers();
+            activityCalendar.Activities = _activityRepo.GetAllActivities();
             return View(activityCalendar);
         }
         [Authorize]
@@ -102,11 +102,11 @@ namespace EUBAD_ActivityPlan.Controllers
         {
             ViewData["Title"] = "Edit a Team Member Activity";
             var teamMemberActivity = _teamMemberActivityPlanRepo.GetTeamMemberActivityById(id);
-            activityCalendar.TeamMembers = GetTeamMembersAsSelectListItems();
-            activityCalendar.Activities = GetActivitiesAsSelectListItems();
+            activityCalendar.TeamMembers = _teamMemberRepo.GetAllMembers();
+            activityCalendar.Activities = _activityRepo.GetAllActivities();
             activityCalendar.Date = teamMemberActivity.Day;
-            activityCalendar.ActivityId = teamMemberActivity.ActivityId;
-            activityCalendar.TeamMemberId = teamMemberActivity.TeamMemberId;
+            activityCalendar.SelectedActivityId = teamMemberActivity.ActivityId;
+            activityCalendar.SelectedTeamMemberId = teamMemberActivity.TeamMemberId;
             return View(activityCalendar);
         }
         [Authorize]
@@ -129,7 +129,7 @@ namespace EUBAD_ActivityPlan.Controllers
             }
             return View(teamMemberActivity);
         }
-        private IEnumerable<SelectListItem> GetTeamMembersAsSelectListItems() => _teamMemberRepo.GetAllMembers().Where(teamMember => teamMember.IsActive).Select(teamMember => new SelectListItem
+        /*private IEnumerable<SelectListItem> GetTeamMembersAsSelectListItems() => _teamMemberRepo.GetAllMembers().Where(teamMember => teamMember.IsActive).Select(teamMember => new SelectListItem
         {
             Value = teamMember.Id.ToString(),
             Text = teamMember.FirstName + " " + teamMember.LastName
@@ -138,6 +138,6 @@ namespace EUBAD_ActivityPlan.Controllers
         {
             Value = activity.Id.ToString(),
             Text = activity.Name
-        });
+        });*/
     }
 }
