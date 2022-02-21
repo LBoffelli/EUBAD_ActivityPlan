@@ -72,14 +72,14 @@ namespace EUBAD_ActivityPlan.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(int teammemberId, int activityId, DateTime date)
+        public async Task<IActionResult> Create(int selectedteammemberId, int selectedactivityId, DateTime date)
         {
             TeamMemberActivity teamMemberActivity = new TeamMemberActivity
             {
-                TeamMemberId = teammemberId,
-                TeamMember = _teamMemberRepo.GetTeamMemberById(teammemberId),
-                ActivityId = activityId,
-                Activity = _activityRepo.GetActivityById(activityId),
+                TeamMemberId = selectedteammemberId,
+                TeamMember = _teamMemberRepo.GetTeamMemberById(selectedteammemberId),
+                ActivityId = selectedactivityId,
+                Activity = _activityRepo.GetActivityById(selectedactivityId),
                 Day = date
             };
             if (ModelState.IsValid)
@@ -111,15 +111,15 @@ namespace EUBAD_ActivityPlan.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(int teammemberId, int activityId, DateTime date, int id)
+        public async Task<IActionResult> Edit(int selectedteammemberId, int selectedactivityId, DateTime date, int id)
         {
             TeamMemberActivity teamMemberActivity = new TeamMemberActivity
             {
                 Id = id,
-                TeamMemberId = teammemberId,
-                TeamMember = _teamMemberRepo.GetTeamMemberById(teammemberId),
-                ActivityId = activityId,
-                Activity = _activityRepo.GetActivityById(activityId),
+                TeamMemberId = selectedteammemberId,
+                TeamMember = _teamMemberRepo.GetTeamMemberById(selectedteammemberId),
+                ActivityId = selectedactivityId,
+                Activity = _activityRepo.GetActivityById(selectedactivityId),
                 Day = date
             };
             if (ModelState.IsValid)
