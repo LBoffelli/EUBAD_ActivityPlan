@@ -4,6 +4,7 @@ using EUBAD_ActivityPlan.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,15 @@ namespace EUBAD_ActivityPlan.Controllers
         private readonly ITeamMemberActivityRepositoryManager _teamMemberActivityPlanRepo;
         private readonly ITeamMemberRepositoryManager _teamMemberRepo;
         private readonly IActivityRepositoryManager _activityRepo;
+        private ILogger<TeamMemberActivityController> _logger;
         public ActivityCalendarViewModel activityCalendar = new ActivityCalendarViewModel();
 
-        public TeamMemberActivityController(ITeamMemberActivityRepositoryManager teamMemberActivityPlanRepo, ITeamMemberRepositoryManager teamMemberRepo, IActivityRepositoryManager activityRepo)
+        public TeamMemberActivityController(ITeamMemberActivityRepositoryManager teamMemberActivityPlanRepo, ITeamMemberRepositoryManager teamMemberRepo, IActivityRepositoryManager activityRepo, ILogger<TeamMemberActivityController> logger)
         {
             _teamMemberActivityPlanRepo = teamMemberActivityPlanRepo;
             _teamMemberRepo = teamMemberRepo;
             _activityRepo = activityRepo;
+            _logger = logger;
         }
 
         public async Task<ViewResult> List(string startdateString, string enddateString)
@@ -40,23 +43,23 @@ namespace EUBAD_ActivityPlan.Controllers
             if (!startOk)
             {
                 ViewData["ErrorMessage"] = "Start Date format is not correct. Displaying all Activities until " + selDateE.ToShortDateString();
-                Console.WriteLine("Unable to convert {0} in date", startdateString);
+                _logger.LogWarning("Unable to convert {0} in Date format. Start Date not available", startdateString);
                 selDateS = DateTime.MinValue;
             }
             else
-                Console.WriteLine("Converted '{0}' to '{1}'", startdateString, selDateS);
+                _logger.LogInformation("Converted successfully '{0}' to '{1}'", startdateString, selDateS);
             if (!endOk)
             {
                 ViewData["ErrorMessage"] = "End Date format is not correct. Displaying all Activities from " + selDateS.ToShortDateString();
-                Console.WriteLine("Unable to convert {0} in date", enddateString);
+                _logger.LogWarning("Unable to convert {0} in Date format. End Date not available", enddateString);
                 selDateE = DateTime.MaxValue;
             }
             else
-                Console.WriteLine("Converted '{0}' to '{1}'", enddateString, selDateE);
+                _logger.LogInformation("Converted successfully '{0}' to '{1}'", enddateString, selDateE);
             if (!(startOk || endOk))
             {
                 ViewData["ErrorMessage"] = "Date format is not correct. Displaying All Activities";
-                Console.WriteLine("Unable to convert {0} and {1} in date", startdateString, enddateString);
+                _logger.LogWarning("Date format for both start and end is not correct.");
             }
 
             return View(await _teamMemberActivityPlanRepo.GetTeamMemberActivitiesByDate(selDateS, selDateE));
