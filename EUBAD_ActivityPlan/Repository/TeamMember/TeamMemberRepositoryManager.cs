@@ -23,23 +23,23 @@ namespace EUBAD_ActivityPlan.Models
         {
             return _appDbContext.TeamMembers.FirstOrDefault(teamMember => teamMember.Id == teamMemberId);
         }
-        public async Task AddTeamMember(TeamMember teamMember)
+        public Task AddTeamMember(TeamMember teamMember)
         {
             _appDbContext.TeamMembers.Add(teamMember);
-            await _appDbContext.SaveChangesAsync();
+            return _appDbContext.SaveChangesAsync();
         }
-        public async Task DeleteTeamMember(TeamMember teamMember)
+        public Task DeleteTeamMember(TeamMember teamMember)
         {
             if (teamMember != null)
             {
                 _appDbContext.TeamMembers.Remove(teamMember);
-                await _appDbContext.SaveChangesAsync();
             }
+            return _appDbContext.SaveChangesAsync();
         }
-        public async Task EditTeamMember(TeamMember teamMember)
+        public Task EditTeamMember(TeamMember teamMember)
         {
             _appDbContext.Update(teamMember);
-            await _appDbContext.SaveChangesAsync();
+            return _appDbContext.SaveChangesAsync();
         }
     }
 }

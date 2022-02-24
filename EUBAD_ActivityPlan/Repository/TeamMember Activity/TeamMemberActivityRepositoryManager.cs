@@ -28,25 +28,25 @@ namespace EUBAD_ActivityPlan.Models
             return (await GetAllTeamActivities()).Where(teamMemberActivity => teamMemberActivity.Day.Date >= startDate.Date && teamMemberActivity.Day.Date <= endDate.Date).OrderBy(teammemberActivity => teammemberActivity.Day);
         }
 
-        public async Task AddTeamMemberActivity(TeamMemberActivity teamMemberActivity)
+        public Task AddTeamMemberActivity(TeamMemberActivity teamMemberActivity)
         {
             _appDbContext.TeamMemberActivities.Add(teamMemberActivity);
-            await _appDbContext.SaveChangesAsync();
+            return _appDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteTeamMemberActivity(TeamMemberActivity teamMemberActivity)
+        public Task DeleteTeamMemberActivity(TeamMemberActivity teamMemberActivity)
         {
             if (teamMemberActivity != null)
             {
                 _appDbContext.TeamMemberActivities.Remove(teamMemberActivity);
-                await _appDbContext.SaveChangesAsync();
             }
+            return _appDbContext.SaveChangesAsync();
         }
 
-        public async Task EditTeamMemberActivity(TeamMemberActivity teamMemberActivity)
+        public Task EditTeamMemberActivity(TeamMemberActivity teamMemberActivity)
         {
             _appDbContext.Update(teamMemberActivity);
-            await _appDbContext.SaveChangesAsync();
+            return _appDbContext.SaveChangesAsync();
         }
     }
 }
